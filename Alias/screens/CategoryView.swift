@@ -19,12 +19,15 @@ struct CategoryView: View {
         HStack(spacing: 0) {
             VStack(alignment: .leading, spacing: 8) {
                 Text("Topic")
-                    .foregroundColor(.primary)
+                    .foregroundColor(.white)
                 Text(name)
                     .font(.largeTitle)
                     .fontWeight(.bold)
                     .italic()
+                    .foregroundColor(.white)
                 Text(count)
+                    .foregroundColor(.white)
+
                 
                 Button("Select") {
                     print("Category selected")
@@ -44,7 +47,7 @@ struct CategoryView: View {
                 .frame(width: size, height: size)
                 .frame(maxWidth: .infinity)
                 .padding()
-                .foregroundColor(.blue)
+                .foregroundColor(.pink)
         }
         .padding()
         .background(Color.red.opacity(0.1))
