@@ -10,20 +10,21 @@
 import SwiftUI
 
 #Preview{
-    SpaceShuttleView()
+    GuessWordView()
 }
 
-struct SpaceShuttleView: View {
+struct GuessWordView: View {
+    var text: String = "SPACE\nSHUTTLE"
     var body: some View {
         Button(action: {
             print("Blast off!")
         }) {
-            Text("SPACE\nSHUTTLE")
+            Text(text)
 //                .font(.custom("PixeloidSans", size: 40))
                 .fontWeight(.black)
                 .multilineTextAlignment(.center)
                 .lineSpacing(-5)
-            .padding(40)
+            .padding(80)
             .background(CheckeredBackground().foregroundColor(Color("D1548E")))
             .foregroundColor(.white)
             .overlay(Rectangle().stroke(Color.black, lineWidth: 8))
