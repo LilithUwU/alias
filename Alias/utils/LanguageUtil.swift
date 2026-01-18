@@ -28,4 +28,23 @@ class LanguageUtil: ObservableObject {
             return nil
         }
     }
+    
+    func getRulesFromJSON(key: String) -> String {
+        let fileName = getLanguageFileName()
+
+        guard let url = Bundle.main.url(forResource: fileName, withExtension: "json"),
+              let jsonData = try? Data(contentsOf: url) else {
+            print("JSON file not found: \(fileName).json")
+            return ""
+        }
+        
+        do {
+            let data = try JSONDecoder().decode(JsonCategories.self, from: jsonData)
+            return data.forKey(for: key)
+        } catch {
+            print("Error decoding JSON: \(error)")
+            return "Error reading JSON"
+        }
+    }
 }
+

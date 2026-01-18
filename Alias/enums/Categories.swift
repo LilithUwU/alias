@@ -11,6 +11,7 @@ enum Categories: String, CaseIterable, CodingKey {
     case vegetables
     case colors
     
+    
     var displayName: String {
         return self.rawValue
     }
@@ -21,7 +22,14 @@ struct JsonCategories: Codable {
     let fruits: [String]
     let vegetables: [String]
     let colors: [String]
+    let gameRules: String
     
+    func forKey(for key: String) -> String {
+        switch key {
+        case "gameRules": return gameRules
+        default: return ""
+        }
+    }
     func words(for category: Categories) -> [String] {
         switch category {
         case .animals: return animals
@@ -30,4 +38,6 @@ struct JsonCategories: Codable {
         case .colors: return colors
         }
     }
+    
+    
 }

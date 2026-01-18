@@ -1,13 +1,17 @@
+//
+//  CategoriesScreen.swift
+//  Alias
+//
+//  Created by lilit on 18.01.26.
+//
+
 import SwiftUI
 
 #Preview {
-    ContentView()
+    CategoriesScreen()
 }
 
-struct ContentView: View {
-    @State private var words: [String] = []
-    @StateObject private var languageUtil = LanguageUtil()
-    
+struct CategoriesScreen: View {
     var body: some View {
         NavigationStack {
             ZStack {
@@ -30,8 +34,6 @@ struct ContentView: View {
             .toolbarColorScheme(.dark, for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
         }
-        .onAppear {
-            words = languageUtil.loadJSON(category: .animals) ?? []
-        }
     }
+
 }
