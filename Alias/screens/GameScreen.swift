@@ -12,37 +12,58 @@ import SwiftUI
 struct GameScreen: View {
     @State private var progress: Float = 20
     @State private var time: String = "00:00"
+    
     var body: some View {
-        
-        VStack(spacing: 80){
-            ProgressView(value: progress, total: 100) {
-                Text("Time left..")
-                    .frame(maxWidth: .infinity, alignment: .trailing)
-                Text(time)
-                    .frame(maxWidth: .infinity, alignment: .trailing).font(Font.largeTitle.bold())
-            } currentValueLabel: {
-                Text("Current progress: \(Int(progress))%")
-                    .frame(maxWidth: .infinity, alignment: .trailing)
-            }
+        ZStack {
+            Color.black.ignoresSafeArea()
+            GridBackground()
             
-            GuessWordView(text: "SpaceX")
-            HStack{
-                MyButton(
-                    text:"Skip",
-                    icon: "xmark.circle.fill",
-                    bgColor: .red,
-                    onTap: {print("Hello")
-                    })
-                MyButton(
-                    text:"Correct",
-                    icon: "checkmark.circle.fill",
-                    bgColor: .green,
-                    onTap: {print("Hello")
-                    })
+            VStack(spacing: 40) {
+                VStack(alignment: .trailing, spacing: 8) {
+                    Text("Time left")
+                        .foregroundColor(.white.opacity(0.7))
+                        .font(.subheadline)
+                    
+                    Text(time)
+                        .foregroundColor(.white)
+                        .font(.system(size: 48, weight: .bold, design: .rounded))
+                    
+                    ProgressView(value: progress, total: 100)
+                        .tint(.cyan)
+                        .scaleEffect(y: 2)
+                    
+                    Text("\(Int(progress))%")
+                        .foregroundColor(.white.opacity(0.7))
+                        .font(.caption)
+                }
+                .padding()
+                .background(Color.white.opacity(0.05))
+                .cornerRadius(15)
+                
+                Spacer()
+                
+                GuessWordView(text: "SpaceX")
+                
+                Spacer()
+                
+                HStack(spacing: 20) {
+                    MyButton(
+                        text: "Skip",
+                        icon: "xmark.circle.fill",
+                        bgColor: .red,
+                        onTap: { print("Skip") }
+                    )
+                    
+                    MyButton(
+                        text: "Correct",
+                        icon: "checkmark.circle.fill",
+                        bgColor: .green,
+                        onTap: { print("Correct") }
+                    )
+                }
             }
+            .padding(20)
         }
-        .padding(20)
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 
