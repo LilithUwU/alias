@@ -5,20 +5,34 @@ struct ContentView: View {
     @StateObject private var languageUtil = LanguageUtil()
     
     var body: some View {
-        NavigationView {
-            VStack {
+        NavigationStack {
+            ZStack {
+                GridBackground()
+                
                 List(words, id: \.self) { word in
-                    Text(word)
-                        .padding(.vertical, 4)
+                   
+                    NavigationLink {
+                      
+                        GameScreen()
+                    } label: {
+                       
+                        Text(word)
+                            .foregroundColor(.white)
+                            .padding(.vertical, 4)
+                    }
+                    .listRowBackground(Color.clear)
                 }
+                .scrollContentBackground(.hidden)
             }
             .navigationTitle("Words")
+            .toolbarColorScheme(.dark, for: .navigationBar)
+        }
             .onAppear {
                 words = languageUtil.loadJSON(category: .animals) ?? []
             }
         }
     }
-}
+
 
 #Preview {
     ContentView()
