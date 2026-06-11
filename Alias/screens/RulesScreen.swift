@@ -11,11 +11,10 @@ struct RulesScreen: View {
     var body: some View {
         ZStack {
             Color.black.ignoresSafeArea()
-            GridBackground()
+            GridBackground().blur(radius: 2)
             
             ScrollView {
                 Text(rules.replacingOccurrences(of: "\\n", with: "\n"))
-                    .foregroundColor(.white)
                     .font(.body)
                     .lineSpacing(4)
                     .padding()

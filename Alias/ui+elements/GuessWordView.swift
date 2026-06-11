@@ -26,7 +26,6 @@ struct GuessWordView: View {
                 .lineSpacing(-5)
             .padding(80)
             .background(CheckeredBackground().foregroundColor(Color("D1548E")))
-            .foregroundColor(.white)
             .overlay(Rectangle().stroke(Color.black, lineWidth: 8))
             .background(Rectangle().fill(Color.black)
 .offset(x: 10, y: 10)

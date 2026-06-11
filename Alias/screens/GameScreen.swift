@@ -25,7 +25,6 @@ struct GameScreen: View {
                         .font(.subheadline)
                     
                     Text(time)
-                        .foregroundColor(.white)
                         .font(.system(size: 48, weight: .bold, design: .rounded))
                     
                     ProgressView(value: progress, total: 100)
