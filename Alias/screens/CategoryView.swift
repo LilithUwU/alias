@@ -19,24 +19,21 @@ struct CategoryView: View {
         HStack(spacing: 0) {
             VStack(alignment: .leading, spacing: 8) {
                 Text("Topic")
-                    .foregroundColor(.white)
                 Text(name)
                     .font(.largeTitle)
                     .fontWeight(.bold)
                     .italic()
-                    .foregroundColor(.white)
                 Text(count)
-                    .foregroundColor(.white)
 
                 
-                Button("Select") {
-                    print("Category selected")
-                }
-                .padding(8)
-                .frame(maxWidth: .infinity)
-                .background(Color.pink)
-                .foregroundColor(.white)
-                .cornerRadius(8)
+//                Button("Select") {
+//                    print("Category selected")
+//                }
+//                .padding(8)
+//                .frame(maxWidth: .infinity)
+//                .background(Color.pink)
+//                .foregroundColor(.white)
+//                .cornerRadius(8)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             
@@ -52,5 +49,7 @@ struct CategoryView: View {
         .padding()
         .background(Color.red.opacity(0.1))
         .border(.red, width: 3)
+        .onTapGesture {
+            print("Category selected")        }
     }
 }

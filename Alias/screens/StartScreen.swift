@@ -30,14 +30,13 @@ struct StartScreen: View {
                             .frame(width: size, height: size)
                             .foregroundStyle(Color.pink)
                         Text("Alias")
-                            .foregroundStyle(Color.white)
                             .font(Font.largeTitle.bold())
                     }
                     
                     Spacer()
                     
                     NavigationLink {
-                        CategoriesScreen()
+                        ConfigureGameScreen()
                     } label: {
                         HStack {
                             Image(systemName: "play.fill")
@@ -46,7 +45,6 @@ struct StartScreen: View {
                         .padding(20)
                         .frame(maxWidth: .infinity)
                         .background(Color.cyan)
-                        .foregroundColor(.white)
                         .cornerRadius(10)
                     }
                     .padding(.horizontal)
@@ -61,7 +59,6 @@ struct StartScreen: View {
                         .padding(20)
                         .frame(maxWidth: .infinity)
                         .background(Color.pink)
-                        .foregroundColor(.white)
                         .cornerRadius(10)
                     }
                     .padding(.horizontal)
