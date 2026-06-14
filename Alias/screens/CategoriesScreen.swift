@@ -35,5 +35,4 @@ struct CategoriesScreen: View {
             .toolbarBackground(.visible, for: .navigationBar)
         }
     }
-
 }

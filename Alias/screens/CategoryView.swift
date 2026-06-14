@@ -8,7 +8,6 @@ import SwiftUI
         )
     }
 }
-
 struct CategoryView: View {
     var iconName: String = "movieclapper"
     var name: String = "Movies"
@@ -16,7 +15,7 @@ struct CategoryView: View {
     let size: CGFloat = 70
     
     var body: some View {
-        HStack(spacing: 0) {
+        HStack(spacing: 8) {
             VStack(alignment: .leading, spacing: 8) {
                 Text("Topic")
                 Text(name)
@@ -24,16 +23,6 @@ struct CategoryView: View {
                     .fontWeight(.bold)
                     .italic()
                 Text(count)
-
-                
-//                Button("Select") {
-//                    print("Category selected")
-//                }
-//                .padding(8)
-//                .frame(maxWidth: .infinity)
-//                .background(Color.pink)
-//                .foregroundColor(.white)
-//                .cornerRadius(8)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             
@@ -49,7 +38,5 @@ struct CategoryView: View {
         .padding()
         .background(Color.red.opacity(0.1))
         .border(.red, width: 3)
-        .onTapGesture {
-            print("Category selected")        }
     }
 }

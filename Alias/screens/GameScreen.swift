@@ -20,6 +20,7 @@ struct GameScreen: View {
     @State private var timeOut: Bool = false
     @State private var textScale: CGFloat = 0.5
     @State private var navigateToGameOver = false
+    @State private var teamName: String = "Antonio Banderas"
     
     var progress: Double {
         return max(0, min(1, Double(totalTime - timeElapsed) / Double(totalTime))) * 100
@@ -144,9 +145,10 @@ struct GameScreen: View {
             GameOverScreen(
                 correctCount: correctCount,
                 skippedCount: skippedCount,
-                teamName: "Antonio Banderas"
+                teamName: teamName
             )
         }
+        .navigationTitle(teamName)
     }
 }
 
