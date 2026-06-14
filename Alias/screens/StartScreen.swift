@@ -24,16 +24,19 @@ struct StartScreen: View {
                     Spacer()
                     
                     ZStack {
-                        Image(systemName: "message.fill")
+                        Image(systemName: "bubble.fill")
                             .resizable()
-                            .scaledToFit()
-                            .frame(width: size, height: size)
+                            .frame(width: size+70, height: size)
                             .foregroundStyle(Color.pink)
                         Text("Alias")
-                            .font(Font.largeTitle.bold())
+                            .font(.system(size: 70, weight: .bold))
+                            .foregroundColor(Color.black)
+                            .offset(x: 4, y: -17)
+                        Text("Alias")
+                            .font(.system(size: 70, weight: .bold))
+                            .offset(x: 0, y: -16)
                     }
                     
-                    Spacer()
                     
                     NavigationLink {
                         ConfigureGameScreen()

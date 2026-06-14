@@ -41,7 +41,7 @@ struct MyButton: View {
                     .font(Font.title3)
             }
         }
-        .frame(width: 180, height: 150)
+        .frame(width: 180, height: 100)
         .background(bgColor)
         .foregroundColor(.white)
         .border(Color.black, width: 3)
