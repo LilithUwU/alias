@@ -15,7 +15,7 @@ struct CategoryView: View {
     let size: CGFloat = 70
     
     var body: some View {
-        HStack(spacing: 0) {
+        HStack(spacing: 8) {
             VStack(alignment: .leading, spacing: 8) {
                 Text("Topic")
                 Text(name)
