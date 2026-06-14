@@ -14,9 +14,9 @@ import SwiftUI
 
 // MARK: - Models
 struct GameConfiguration {
-    var team1Name: String = ""
+    var team1Name: String = "Team 1"
     var team1Color: Color = .red
-    var team2Name: String = ""
+    var team2Name: String = "Team 2"
     var team2Color: Color = .blue
     var wordCount: Int = 10
     var turnDuration: Int = 60
