@@ -46,5 +46,15 @@ class LanguageUtil: ObservableObject {
             return "Error reading JSON"
         }
     }
+    
+    func loadAllData() -> JsonCategories? {
+        let fileName = getLanguageFileName()
+        guard let url = Bundle.main.url(forResource: fileName, withExtension: "json"),
+              let jsonData = try? Data(contentsOf: url) else {
+            return nil
+        }
+        
+        return try? JSONDecoder().decode(JsonCategories.self, from: jsonData)
+    }
 }
 

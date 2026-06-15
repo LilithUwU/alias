@@ -8,13 +8,13 @@ import SwiftUI
 
 #Preview {
     HStack{
-        MyButton(
+        ControlButton(
             text:"Skip",
             icon: "xmark.circle.fill",
             bgColor: .red,
             onTap: {print("Hello")
             })
-        MyButton(
+        ControlButton(
             text:"Correct",
             icon: "checkmark.circle.fill",
             bgColor: .green,
@@ -24,7 +24,7 @@ import SwiftUI
 }
 
 
-struct MyButton: View {
+struct ControlButton: View {
     var text: String
     var icon: String
     var bgColor: Color

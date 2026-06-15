@@ -10,9 +10,8 @@ import SwiftUI
 #Preview{
     StartScreen()
 }
-
 struct StartScreen: View {
-    let size: CGFloat = 200
+    private let logoSize: CGFloat = 200
     
     var body: some View {
         NavigationStack {
@@ -20,54 +19,71 @@ struct StartScreen: View {
                 Color.black.ignoresSafeArea()
                 GridBackground()
                 
-                VStack(spacing: 20) {
+                VStack(spacing: 24) {
                     Spacer()
                     
-                    ZStack {
-                        Image(systemName: "bubble.fill")
-                            .resizable()
-                            .frame(width: size+70, height: size)
-                            .foregroundStyle(Color.pink)
-                        Text("Alias")
-                            .font(.system(size: 70, weight: .bold))
-                            .foregroundColor(Color.black)
-                            .offset(x: 4, y: -17)
-                        Text("Alias")
-                            .font(.system(size: 70, weight: .bold))
-                            .offset(x: 0, y: -16)
-                    }
+                    logo
                     
-                    
-                    NavigationLink {
-                        ConfigureGameScreen()
-                    } label: {
-                        HStack {
-                            Image(systemName: "play.fill")
-                            Text("Start Game").font(Font.title.bold())
+                    VStack(spacing: 16) {
+                        menuButton(
+                            title: "Start Game",
+                            systemImage: "play.fill",
+                            color: .cyan
+                        ) {
+                            ConfigureGameScreen()
                         }
-                        .padding(20)
-                        .frame(maxWidth: .infinity)
-                        .background(Color.cyan)
-                        .cornerRadius(10)
+                        
+                        menuButton(
+                            title: "Rules",
+                            systemImage: "book.fill",
+                            color: .pink
+                        ) {
+                            RulesScreen()
+                        }
                     }
                     .padding(.horizontal)
                     
-                    NavigationLink {
-                        RulesScreen()
-                    } label: {
-                        HStack {
-                            Image(systemName: "book.fill")
-                            Text("Rules").font(Font.title.bold())
-                        }
-                        .padding(20)
-                        .frame(maxWidth: .infinity)
-                        .background(Color.pink)
-                        .cornerRadius(10)
-                    }
-                    .padding(.horizontal)
                     Spacer()
                 }
             }
+        }
+    }
+    
+    private var logo: some View {
+        ZStack {
+            Image(systemName: "bubble.fill")
+                .resizable()
+                .scaledToFit()
+                .frame(width: logoSize + 70)
+                .foregroundStyle(.pink)
+            
+            Text("Alias")
+                .font(.system(size: 70, weight: .bold))
+                .foregroundStyle(.black)
+                .offset(x: 4, y: -17)
+            
+            Text("Alias")
+                .font(.system(size: 70, weight: .bold))
+                .foregroundStyle(.white)
+                .offset(y: -16)
+        }
+    }
+    
+    @ViewBuilder
+    private func menuButton<Destination: View>(
+        title: String,
+        systemImage: String,
+        color: Color,
+        @ViewBuilder destination: @escaping () -> Destination
+    ) -> some View {
+        NavigationLink(destination: destination) {
+            Label(title, systemImage: systemImage)
+                .font(.title2.bold())
+                .frame(maxWidth: .infinity)
+                .padding()
+                .background(color)
+                .foregroundStyle(.black)
+                .clipShape(RoundedRectangle(cornerRadius: 12))
         }
     }
 }

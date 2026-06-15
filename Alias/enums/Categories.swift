@@ -4,19 +4,18 @@
 //
 //  Created by lilit on 15.01.26.
 //
-
-enum Categories: String, CaseIterable, CodingKey {
+import Foundation
+// Remove CodingKey
+enum Categories: String, CaseIterable, Codable {
     case animals
     case fruits
     case vegetables
     case colors
     
-    
     var displayName: String {
-        return self.rawValue
+        return self.rawValue.capitalized
     }
 }
-
 struct JsonCategories: Codable {
     let animals: [String]
     let fruits: [String]

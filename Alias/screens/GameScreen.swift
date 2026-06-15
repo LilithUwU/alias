@@ -13,6 +13,8 @@ import Combine
 }
 
 struct GameScreen: View {
+    @Environment(MainViewModel.self) private var viewModel
+    @State private var list : [String] = []
     private let totalTime: Int = 5
     @State private var timeElapsed: Int = 5
     @State private var skippedCount = 0
@@ -27,8 +29,6 @@ struct GameScreen: View {
     }
     
     let timer = Timer.publish(every: 1.0, on: .main, in: .common).autoconnect()
-    
-    @State private var list = ["bear", "racoon", "fox", "dog", "cat", "snake", "snail"]
     
     var body: some View {
         NavigationStack {
@@ -95,7 +95,7 @@ struct GameScreen: View {
                     Spacer()
                     
                     HStack(spacing: 20) {
-                        MyButton(
+                        ControlButton(
                             text: "Skip (\(skippedCount))",
                             icon: "xmark.circle.fill",
                             bgColor: .red,
@@ -107,7 +107,7 @@ struct GameScreen: View {
                             }
                         )
                         
-                        MyButton(
+                        ControlButton(
                             text: "Correct (\(correctCount))",
                             icon: "checkmark.circle.fill",
                             bgColor: .green,
@@ -149,6 +149,9 @@ struct GameScreen: View {
             )
         }
         .navigationTitle(teamName)
+        .onAppear {
+             list = viewModel.currentWords
+        }
     }
 }
 

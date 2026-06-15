@@ -11,25 +11,8 @@ import SwiftUI
         ConfigureGameScreen()
     }
 }
-
-// MARK: - Models
-struct GameConfiguration {
-    var team1Name: String = "Team 1"
-    var team1Color: Color = .red
-    var team2Name: String = "Team 2"
-    var team2Color: Color = .blue
-    var wordCount: Int = 10
-    var turnDuration: Int = 60
-    
-    var isValid: Bool {
-        !team1Name.trimmingCharacters(in: .whitespaces).isEmpty &&
-        !team2Name.trimmingCharacters(in: .whitespaces).isEmpty
-    }
-}
-
-// MARK: - Main Screen
 struct ConfigureGameScreen: View {
-    @State private var configuration = GameConfiguration()
+    @Environment(MainViewModel.self) private var viewModel
     
     var body: some View {
         ZStack {
@@ -38,18 +21,18 @@ struct ConfigureGameScreen: View {
             
             ScrollView {
                 VStack(spacing: 8) {
-                    TimerPickerView(selectedTime: $configuration.turnDuration)
-                    WordCountPickerView(wordCount: $configuration.wordCount)
+                    TimerPickerView(selectedTime: Bindable(viewModel).turnDuration)
+                    WordCountPickerView(wordCount: Bindable(viewModel).wordCount)
                     
                     TeamConfigurationSection(
-                        teamName: $configuration.team1Name,
-                        teamColor: $configuration.team1Color,
+                        teamName: Bindable(viewModel).team1Name,
+                        teamColor: Bindable(viewModel).team1Color,
                         teamNumber: 1
                     )
                     
                     TeamConfigurationSection(
-                        teamName: $configuration.team2Name,
-                        teamColor: $configuration.team2Color,
+                        teamName: Bindable(viewModel).team2Name,
+                        teamColor: Bindable(viewModel).team2Color,
                         teamNumber: 2
                     )
                     
@@ -59,17 +42,14 @@ struct ConfigureGameScreen: View {
                             .padding(.vertical, 12)
                             .fontWeight(.semibold)
                     }
-                    .disabled(!configuration.isValid)
+                    .disabled(!viewModel.isConfigurationValid) 
                     .tint(.pink)
                     .buttonStyle(.borderedProminent)
-                    .opacity(configuration.isValid ? 1 : 0.5)
+                    .opacity(viewModel.isConfigurationValid ? 1 : 0.5)
                 }
-                .padding(.horizontal, 20)
-                .padding(.vertical, 16)
+                .padding(20)
             }
         }
         .navigationTitle("Configure Game")
-        .navigationBarTitleDisplayMode(.inline)      .preferredColorScheme(.dark)
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
