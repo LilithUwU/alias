@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct AliasApp: App {
+    @State private var viewModel = MainViewModel()
     var body: some Scene {
         WindowGroup {
             StartScreen()
+                .environment(viewModel)
         }
+        
     }
 }

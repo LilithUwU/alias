@@ -10,29 +10,35 @@ import SwiftUI
 #Preview {
     CategoriesScreen()
 }
-
 struct CategoriesScreen: View {
+    @Environment(MainViewModel.self) private var viewModel
+    @State private var navigatedCategory: Categories? = nil
+
     var body: some View {
-        NavigationStack {
-            ZStack {
-                GridBackground()
-                List(Categories.allCases, id: \.self) { category in
-                    NavigationLink {
-                        GameScreen()
-                    } label: {
-                        CategoryView(
-                            iconName: category.rawValue,
-                            name: category.displayName.capitalized
-                        )
+        ZStack {
+            GridBackground()
+            ScrollView {
+                LazyVStack(spacing: 16) {
+                    ForEach(Categories.allCases, id: \.self) { category in
+                        Button {
+                            viewModel.selectedCategory = category
+                            navigatedCategory = category
+                        } label: {
+                            CategoryView(
+                                iconName: category.rawValue,
+                                name: category.displayName.capitalized,
+                                topicCount: viewModel.jsonData?.words(for: category).count ?? 0
+                            )
+                        }
+                        .buttonStyle(.plain)
                     }
-                    .listRowBackground(Color.clear)
-                    .listRowSeparator(.hidden)
                 }
-                .scrollContentBackground(.hidden)
+                .padding()
             }
-            .navigationTitle("Words")
-            .toolbarColorScheme(.dark, for: .navigationBar)
-            .toolbarBackground(.visible, for: .navigationBar)
         }
+        .navigationDestination(item: $navigatedCategory) { _ in
+            GameScreen()
+        }
+        .navigationTitle("Words")
     }
 }

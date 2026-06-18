@@ -42,3 +42,7 @@ struct WordCountPickerView: View {
     }
 }
 
+#Preview {
+    @Previewable @State var wordCount: Int = 25
+    WordCountPickerView(wordCount: $wordCount)
+}
