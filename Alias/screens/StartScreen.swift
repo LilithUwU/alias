@@ -11,10 +11,13 @@ import SwiftUI
     StartScreen()
 }
 struct StartScreen: View {
+    @Environment(MainViewModel.self) private var viewModel
     private let logoSize: CGFloat = 200
     
     var body: some View {
-        NavigationStack {
+        @Bindable var viewModel = viewModel
+
+        NavigationStack(path: $viewModel.navigationPath) {
             ZStack {
                 Color.black.ignoresSafeArea()
                 GridBackground()
@@ -27,24 +30,62 @@ struct StartScreen: View {
                     VStack(spacing: 16) {
                         menuButton(
                             title: "Start Game",
-                            systemImage: "play.fill",
-                            color: .cyan
-                        ) {
-                            ConfigureGameScreen()
-                        }
+                            systemImage: "plus.circle.fill",
+                            color: .cyan,
+                            route: .configure
+                        )
+                        
+                        menuButton(
+                            title: "Continue game",
+                            systemImage:  "play.fill",
+                            color: .gray,
+                            route: .history
+                        )
                         
                         menuButton(
                             title: "Rules",
                             systemImage: "book.fill",
-                            color: .pink
-                        ) {
-                            RulesScreen()
-                        }
+                            color: .pink,
+                            route: .rules
+                        )
                     }
                     .padding(.horizontal)
                     
                     Spacer()
                 }
+            }
+            .navigationDestination(for: AppRoute.self) { route in
+                destination(for: route)
+            }
+        }
+    }
+
+    @ViewBuilder
+    private func destination(for route: AppRoute) -> some View {
+        switch route {
+        case .configure:
+            ConfigureGameScreen()
+        case .history:
+            HistoryScreen()
+        case .rules:
+            RulesScreen()
+        case .categories:
+            if let session = viewModel.activeSession {
+                CategoriesScreen(gameSession: session)
+            }
+        case .game:
+            if let session = viewModel.activeSession {
+                GameScreen(teamName: session.activeTeamName, gameSession: session)
+            }
+        case .gameOver:
+            if let session = viewModel.activeSession, let result = viewModel.turnResult {
+                GameOverScreen(
+                    correctCount: result.correctCount,
+                    skippedCount: result.skippedCount,
+                    teamName: result.teamName,
+                    nextTeamName: result.nextTeamName,
+                    gameSession: session
+                )
             }
         }
     }
@@ -70,13 +111,13 @@ struct StartScreen: View {
     }
     
     @ViewBuilder
-    private func menuButton<Destination: View>(
+    private func menuButton(
         title: String,
         systemImage: String,
         color: Color,
-        @ViewBuilder destination: @escaping () -> Destination
+        route: AppRoute
     ) -> some View {
-        NavigationLink(destination: destination) {
+        NavigationLink(value: route) {
             Label(title, systemImage: systemImage)
                 .font(.title2.bold())
                 .frame(maxWidth: .infinity)

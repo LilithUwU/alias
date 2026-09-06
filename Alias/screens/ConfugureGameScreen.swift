@@ -5,6 +5,7 @@
 //  Created by lilit on 11.06.26.
 //
 import SwiftUI
+import SwiftData
 
 #Preview {
     NavigationStack {
@@ -13,6 +14,7 @@ import SwiftUI
 }
 struct ConfigureGameScreen: View {
     @Environment(MainViewModel.self) private var viewModel
+    @Environment(\.modelContext) private var modelContext
     
     var body: some View {
         ZStack {
@@ -22,9 +24,9 @@ struct ConfigureGameScreen: View {
             ScrollView {
                 VStack(spacing: 8) {
                     TimerPickerView(selectedTime: Bindable(viewModel).turnDuration)
-                    SliderPickerPickerView(wordCount: Bindable(viewModel).wordCount,
-                        title: "Word count")
-                    
+//                    SliderPickerPickerView(wordCount: Bindable(viewModel).wordCount,
+//                        title: "Word count")
+//                    
                     SliderPickerPickerView(
                         wordCount: Bindable(viewModel).winPoints,
                         title: "Winning points"
@@ -42,7 +44,10 @@ struct ConfigureGameScreen: View {
                         teamNumber: 2
                     )
                     
-                    NavigationLink(destination: CategoriesScreen()) {
+                    Button {
+                        _ = viewModel.startGame(in: modelContext)
+                        viewModel.navigationPath.append(AppRoute.categories)
+                    } label: {
                         Label("Next", systemImage: "arrow.right")
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 12)

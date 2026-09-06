@@ -7,12 +7,13 @@
 
 import SwiftUI
 
-#Preview {
-    CategoriesScreen()
-}
 struct CategoriesScreen: View {
     @Environment(MainViewModel.self) private var viewModel
-    @State private var navigatedCategory: Categories? = nil
+    let gameSession: GameSession
+
+    init(gameSession: GameSession) {
+        self.gameSession = gameSession
+    }
 
     var body: some View {
         ZStack {
@@ -22,7 +23,8 @@ struct CategoriesScreen: View {
                     ForEach(Categories.allCases, id: \.self) { category in
                         Button {
                             viewModel.selectedCategory = category
-                            navigatedCategory = category
+                            viewModel.navigationPath.removeLast()
+                            viewModel.navigationPath.append(AppRoute.game)
                         } label: {
                             CategoryView(
                                 // png icons from assets
@@ -36,9 +38,6 @@ struct CategoriesScreen: View {
                 }
                 .padding()
             }
-        }
-        .navigationDestination(item: $navigatedCategory) { _ in
-            GameScreen()
         }
         .navigationTitle("Words")
     }

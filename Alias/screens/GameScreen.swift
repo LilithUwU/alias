@@ -7,22 +7,29 @@
 
 import SwiftUI
 import Combine
-
-#Preview {
-    GameScreen()
-}
+import SwiftData
 
 struct GameScreen: View {
     @Environment(MainViewModel.self) private var viewModel
+    @Environment(\.modelContext) private var modelContext
     @State private var list : [String] = []
-    private let totalTime: Int = 5
-    @State private var timeElapsed: Int = 5
+    @State private var timeElapsed: Int
     @State private var skippedCount = 0
     @State private var correctCount = 0
     @State private var timeOut: Bool = false
     @State private var textScale: CGFloat = 0.5
-    @State private var navigateToGameOver = false
-    @State private var teamName: String = "Antonio Banderas"
+    let teamName: String
+    let gameSession: GameSession
+
+    init(teamName: String, gameSession: GameSession) {
+        self.teamName = teamName
+        self.gameSession = gameSession
+        self._timeElapsed = State(initialValue: gameSession.turnDuration)
+    }
+
+    private var totalTime: Int {
+        gameSession.turnDuration
+    }
     
     var progress: Double {
         return max(0, min(1, Double(totalTime - timeElapsed) / Double(totalTime))) * 100
@@ -31,12 +38,21 @@ struct GameScreen: View {
     let timer = Timer.publish(every: 1.0, on: .main, in: .common).autoconnect()
     
     var body: some View {
-        NavigationStack {
-            ZStack {
+        ZStack {
                 Color.black.ignoresSafeArea()
                 GridBackground()
-                
-                VStack(spacing: 40) {
+                VStack(spacing: 30) {
+//                    VStack(spacing: 4) {
+//                        Text("Current team")
+//                            .font(.subheadline.weight(.medium))
+//                            .foregroundStyle(.white.opacity(0.65))
+//                        Text(teamName)
+//                            .font(.title.bold())
+//                            .foregroundStyle(.cyan)
+//                            .lineLimit(1)
+//                            .minimumScaleFactor(0.7)
+//                    }
+
                     VStack(alignment: .trailing, spacing: 8) {
                         Text("Time left")
                             .foregroundColor(.white.opacity(0.7))
@@ -82,6 +98,8 @@ struct GameScreen: View {
                                 if let index = list.firstIndex(of: item) {
                                        list.remove(at: index)
                                        correctCount += 1
+                                       viewModel.addPoint(for: teamName, in: gameSession)
+                                       try? modelContext.save()
                                 }
                             }
                     }
@@ -116,6 +134,8 @@ struct GameScreen: View {
                                 guard timeElapsed > 0, !list.isEmpty else { return }
                                 list.removeFirst()
                                 correctCount += 1
+                                viewModel.addPoint(for: teamName, in: gameSession)
+                                try? modelContext.save()
                             }
                         )
                     }
@@ -135,18 +155,14 @@ struct GameScreen: View {
                             }
                             Task { @MainActor in
                                 try? await Task.sleep(for: .seconds(3))
-                                navigateToGameOver = true
+                                viewModel.presentGameOver(
+                                    correctCount: correctCount,
+                                    skippedCount: skippedCount,
+                                    teamName: teamName
+                                )
                             }
                         }
                 }
-            }
-        }
-        .navigationDestination(isPresented: $navigateToGameOver) {
-            GameOverScreen(
-                correctCount: correctCount,
-                skippedCount: skippedCount,
-                teamName: teamName
-            )
         }
         .navigationTitle(teamName)
         .onAppear {
