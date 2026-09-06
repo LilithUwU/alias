@@ -18,6 +18,7 @@ class MainViewModel {
     var team2Name: String = "Team 2"
     var team2Color: Color = .blue
     var wordCount: Int = 10
+    var winPoints: Int = 10
     var turnDuration: Int = 60
     
     var isConfigurationValid: Bool {
@@ -39,7 +40,11 @@ class MainViewModel {
     
     var currentWords: [String] {
         guard let data = jsonData else { return [] }
-        return data.words(for: selectedCategory)
+        var words = data.words(for: selectedCategory)
+        if selectedCategory == .mixed {
+            words = words.shuffled()
+        }
+        return words
     }
 }
 

@@ -11,10 +11,17 @@ enum Categories: String, CaseIterable, Codable {
     case fruits
     case vegetables
     case colors
+    case mixed
     
     var displayName: String {
         return self.rawValue.capitalized
     }
+    var iconName: String {
+             switch self {
+             case .mixed: return "shuffle"
+             default : return self.rawValue
+             }
+         }
 }
 struct JsonCategories: Codable {
     let animals: [String]
@@ -35,6 +42,7 @@ struct JsonCategories: Codable {
         case .fruits: return fruits
         case .vegetables: return vegetables
         case .colors: return colors
+        case .mixed: return animals + fruits + vegetables + colors
         }
     }
     

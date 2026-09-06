@@ -6,9 +6,9 @@
 //
 import SwiftUI
 
-// MARK: - Word Count Picker
-struct WordCountPickerView: View {
+struct SliderPickerPickerView: View {
     @Binding var wordCount: Int
+    let title: String
     
     private let minWords = 1
     private let maxWords = 100
@@ -16,7 +16,7 @@ struct WordCountPickerView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             HStack {
-                Text("Word Count")
+                Text(title)
                     .font(.headline)
                     .foregroundColor(.white)
                 Spacer()
@@ -44,5 +44,5 @@ struct WordCountPickerView: View {
 
 #Preview {
     @Previewable @State var wordCount: Int = 25
-    WordCountPickerView(wordCount: $wordCount)
+    SliderPickerPickerView(wordCount: $wordCount, title: "Title")
 }
