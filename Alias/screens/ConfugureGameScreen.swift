@@ -22,7 +22,13 @@ struct ConfigureGameScreen: View {
             ScrollView {
                 VStack(spacing: 8) {
                     TimerPickerView(selectedTime: Bindable(viewModel).turnDuration)
-                    WordCountPickerView(wordCount: Bindable(viewModel).wordCount)
+                    SliderPickerPickerView(wordCount: Bindable(viewModel).wordCount,
+                        title: "Word count")
+                    
+                    SliderPickerPickerView(
+                        wordCount: Bindable(viewModel).winPoints,
+                        title: "Winning points"
+                    )
                     
                     TeamConfigurationSection(
                         teamName: Bindable(viewModel).team1Name,
@@ -42,7 +48,7 @@ struct ConfigureGameScreen: View {
                             .padding(.vertical, 12)
                             .fontWeight(.semibold)
                     }
-                    .disabled(!viewModel.isConfigurationValid) 
+                    .disabled(!viewModel.isConfigurationValid)
                     .tint(.pink)
                     .buttonStyle(.borderedProminent)
                     .opacity(viewModel.isConfigurationValid ? 1 : 0.5)

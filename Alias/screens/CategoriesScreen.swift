@@ -25,7 +25,8 @@ struct CategoriesScreen: View {
                             navigatedCategory = category
                         } label: {
                             CategoryView(
-                                iconName: category.rawValue,
+                                // png icons from assets
+                                iconName: category.iconName,
                                 name: category.displayName.capitalized,
                                 topicCount: viewModel.jsonData?.words(for: category).count ?? 0
                             )
